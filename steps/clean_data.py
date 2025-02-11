@@ -1,7 +1,11 @@
 import logging
 import pandas as pd
 from zenml import step
-from src.data_cleaning import DataCleaning, DataDivideStrategy, DataPreProcessStrategy
+from src.modeling.data_cleaning import (
+    DataCleaning,
+    DataDivideStrategy,
+    DataPreProcessStrategy,
+)
 from typing_extensions import Annotated
 from typing import Tuple
 
@@ -35,6 +39,7 @@ def clean_df(
         data_cleaning = DataCleaning(processed_data, divide_strategy)
         X_train, X_test, y_train, y_test = data_cleaning.handle_data()
         logging.info("Data cleaning Completed")
+        return X_train, X_test, y_train, y_test
     except Exception as e:
         logging.error("Error in cleaning Data:{}".format(e))
         raise e

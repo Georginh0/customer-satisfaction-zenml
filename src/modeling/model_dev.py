@@ -1,49 +1,47 @@
 import logging
 from abc import ABC, abstractmethod
 from sklearn.linear_model import LinearRegression
-from .config import ModelNameConfig
 
 
-class model(ABC):
+class BaseModel(ABC):
     """
-    Abstract class for model strategies
+    Abstract class for model strategies.
     """
 
     @abstractmethod
     def train(self, X_train, y_train):
         """
-        trains the model
+        Trains the model.
 
         Args:
             X_train : training data
             y_train : training labels
         Returns:
-            None
+            Trained model
         """
         pass
 
 
-class LinearRegressionModel(model):
+class LinearRegressionModel(BaseModel):
     """
-    Strategy for Linear Regression
+    Strategy for Linear Regression.
     """
 
     def train(self, X_train, y_train, **kwargs):
         """
-        trains the model
+        Trains the Linear Regression model.
 
         Args:
             X_train : training data
             y_train : training labels
         Returns:
-            None
+            Trained model
         """
-
-    try:
-        reg = LinearRegression()
-        reg.fit(X_train, y_train)
-        logging.info("Model Trained")
-        return reg
-    except Exception as e:
-        logging.error("Error in training model:{}".format(e))
-        raise e
+        try:
+            reg = LinearRegression()
+            reg.fit(X_train, y_train)
+            logging.info("Model Trained")
+            return reg  # ✅ Fixed: return is inside the function
+        except Exception as e:
+            logging.error(f"Error in training model: {e}")
+            raise e
